@@ -21,6 +21,9 @@ const swaggerOptions = {
       {
         url: "http://localhost:5088",
       },
+      {
+        url: "https://cv-parser.cyclic.app",
+      },
     ],
   },
   apis: ["./app.js"],
@@ -34,27 +37,24 @@ app.use(express.json());
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-// home
-// redirect to cv-parser*
+// Home
 app.get("/", (req, res) => {
-  res.json({ message: `Go to '/api/v0/cv-parser'` });
+  res.json({ message: `Go to '/api/v1/docs'` });
 });
 
-// endpoint 0
-// redirect to cv-parser*
+// Endpoint 0
 app.get("/api/v1", (req, res) => {
   res.json({ message: `Go to '/cv-parser'` });
 });
 
-// endpoint 2
-// A text-based-PDF CV Parser
+// Endpoint 1 (Main)
 /**
  * @swagger
  * /api/v1/cv-parser:
  *   post:
  *     tags:
  *       - CV Parser
- *     summary: Converts a text-based PDF CV to JSON
+ *     summary: Converts a text-based-PDF CV to JSON
  *     requestBody:
  *       content:
  *         multipart/form-data:
@@ -78,15 +78,14 @@ app.post(
   cvParserControllers.pdfCv2JsonParser
 );
 
-// endpoint 2
-// A text-based PDF to TEXT converter
+// Endpoint 2
 /**
  * @swagger
  * /api/v1/text-based-pdf-parser:
  *   post:
  *     tags:
  *       - Extra
- *     summary: Converts a text-based PDF to text
+ *     summary: Converts a text-based-PDF to TEXT
  *     requestBody:
  *       content:
  *         multipart/form-data:
